@@ -226,6 +226,18 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
     internal var numberOfSections: Int = 0
     
     fileprivate var dequeingSection = 0
+    
+    public var visibleIndex: IndexPath? {
+            var visibleRect = CGRect()
+
+            visibleRect.origin = collectionView.contentOffset
+            visibleRect.size = collectionView.bounds.size
+
+            let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+
+            guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return nil}
+            return indexPath
+    }
     fileprivate var centermostIndexPath: IndexPath {
         guard self.numberOfItems > 0, self.collectionView.contentSize != .zero else {
             return IndexPath(item: 0, section: 0)
